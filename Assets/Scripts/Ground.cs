@@ -1,25 +1,25 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
-public class Ground : MonoBehaviour
+public class Ground : MovingObject
 {
-    private Rigidbody2D rb;
+    private Material Floor;
 
+    private Vector2 Offset;
 
+    public float XVel = 0.1f;
 
-    // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
-        rb = GetComponent<Rigidbody2D>();  
-        
+        Floor = GetComponent<Renderer>().material;
     }
 
-    private void Update()
+    protected override void Update()
     {
-        transform.position = Vector2.MoveTowards(transform.position, new Vector2(-100, transform.position.y), 2 * Time.deltaTime); 
+        Offset = XVel * speed * Time.deltaTime * Vector2.right;
+        Floor.mainTextureOffset += Offset;
     }
-
-
 
 }
