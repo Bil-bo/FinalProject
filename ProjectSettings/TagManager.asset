@@ -6,6 +6,11 @@ TagManager:
   tags:
   - Pass
   - Platform
+  - VirtualCamera
+  - Manager
+  - Switch
+  - Falling
+  - Flying
   layers:
   - Default
   - TransparentFX

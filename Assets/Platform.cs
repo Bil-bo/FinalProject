@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,10 +6,10 @@ using UnityEngine;
 public class Platform : MonoBehaviour
 {
     [SerializeField]
-    public BoxCollider2D SolidGround;
+    private BoxCollider2D SolidGround;
 
     [SerializeField]
-    public BoxCollider2D TriggerGround;
+    private BoxCollider2D TriggerGround;
 
     private void Start()
     {
@@ -19,6 +20,7 @@ public class Platform : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        Debug.Log("Hit");
         if (collision.CompareTag("Player"))
         {
             SolidGround.enabled = false;    
@@ -28,6 +30,7 @@ public class Platform : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
+        Debug.Log("Exit");
         if (collision.CompareTag("Player"))
         {
             SolidGround.enabled = true;
@@ -40,8 +43,11 @@ public class Platform : MonoBehaviour
         SolidGround.enabled = false;
         TriggerGround.enabled = false;   
         yield return new WaitForSeconds(1f);
-        SolidGround.enabled = true;
-        TriggerGround.enabled = true;
+        try
+        {
+            SolidGround.enabled = true;
+            TriggerGround.enabled = true;
+        } catch (Exception e) { Debug.Log(e); }
     }
 
 }

@@ -14,7 +14,7 @@ public class GroundScroller : MovingObject
 
     protected override void Update()
     {
-        ScrollOffset = Time.deltaTime * speed;
+        ScrollOffset = Time.deltaTime * Speed;
 
 
         if (ScrollOffset >= TileSize)

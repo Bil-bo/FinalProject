@@ -17,3 +17,19 @@ public interface IOnGameOverEvent: IObserve
 {
     void OnGameOver(GameOverEvent eventData);
 }
+
+public interface IOnSceneChangeEvent : IObserve
+{
+    void OnSceneChange(SceneChangeEvent eventData);
+}
+
+public interface IOnSceneChangingEvent : IObserve
+{
+    void OnSceneChanging(SceneChangingEvent eventData);
+}
+
+
+public interface IOnDistanceMilestoneEvent : IObserve
+{
+    void OnDistanceMilestone(DistanceMilestoneEvent eventData);
+}

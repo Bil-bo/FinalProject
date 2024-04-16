@@ -4,7 +4,7 @@ using System.Reflection;
 using UnityEngine.InputSystem;
 using UnityEngine;
 
-public class Player : MonoBehaviour
+public class Player : MonoBehaviour, IOnSceneChangingEvent, IOnSceneChangeEvent
 
 {
     [SerializeField]
@@ -30,9 +30,11 @@ public class Player : MonoBehaviour
     private Vector3 maxScreenBounds;
     private Collider2D pBounds;
     private Animator Animator;
+    private SceneIndex Scene;
 
     private bool Jumping = false;
     private bool Grounded = true;
+    private bool Transitioning = false;
 
     // Start is called before the first frame update
     void Start()
@@ -43,6 +45,9 @@ public class Player : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         pBounds = GetComponent<Collider2D>();
         Animator = GetComponent<Animator>();
+
+        EventManager.AddListener<SceneChangingEvent>(OnSceneChanging);
+        EventManager.AddListener<SceneChangeEvent>(OnSceneChange);
 
 
 
@@ -66,16 +71,12 @@ public class Player : MonoBehaviour
 
     private void OnFallThrough()
     {
-        Debug.Log("Attempting Fall");
         RaycastHit2D hit = Physics2D.BoxCast(transform.position, boxSize, 0, -transform.up, castDistance, groundLayer);
         if (hit.collider != null && hit.collider.CompareTag("Platform"))
         {
             StartCoroutine(hit.collider.gameObject.GetComponent<Platform>().FallThrough());
             Animator.SetTrigger("FallingThrough");
         }
-        
-
-
     }
 
 
@@ -84,15 +85,28 @@ public class Player : MonoBehaviour
         if (minScreenBounds != cam.ScreenToWorldPoint(Vector3.zero) || 
             maxScreenBounds != cam.ScreenToWorldPoint(new Vector2(Screen.width, Screen.height)))
         {
-            Debug.LogWarning("Size Changed");
             minScreenBounds = Camera.main.ScreenToWorldPoint(new Vector3(0, 0, 0));
             maxScreenBounds = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 0));
         }
 
-        rb.velocity = new Vector2(
-            ((minScreenBounds.x > pBounds.bounds.min.x && moveValue.x <= 0)  || 
-            (maxScreenBounds.x < pBounds.bounds.max.x && moveValue.x >= 0) ? 0 : moveValue.x * speed), 
-            rb.velocity.y);
+        if (Transitioning)
+        {
+            switch (Scene)
+            {
+                case SceneIndex.RUNNING:
+                    rb.velocity = new Vector2(2 * speed, rb.velocity.y);
+                    break;
+            }
+
+        }
+
+        else
+        {
+            rb.velocity = new Vector2(
+                ((minScreenBounds.x > pBounds.bounds.min.x && moveValue.x <= 0) ||
+                (maxScreenBounds.x < pBounds.bounds.max.x && moveValue.x >= 0) ? 0 : moveValue.x * speed),
+                rb.velocity.y);
+        }
 
         if (IsGrounded())
         {
@@ -121,19 +135,32 @@ public class Player : MonoBehaviour
 
     }
 
+    public void OnSceneChanging(SceneChangingEvent eventData)
+    {
+        GetComponent<PlayerInput>().DeactivateInput();
+        Transitioning = true;
+    }
+
+    public void OnSceneChange(SceneChangeEvent eventData)
+    {
+        GetComponent<PlayerInput>().ActivateInput();
+        Transitioning = false;
+        Scene = eventData.Stage;
+    }
+
+
     private void OnDrawGizmos()
     {
         Gizmos.DrawWireCube(transform.position - transform.up * castDistance, boxSize);
 
     }
 
-
-
-
-
-    // Update is called once per frame
-    void Update()
+    private void OnDestroy()
     {
-        
+        EventManager.RemoveListener<SceneChangingEvent>(OnSceneChanging);
+        EventManager.RemoveListener<SceneChangeEvent>(OnSceneChange);
     }
+
+
+
 }

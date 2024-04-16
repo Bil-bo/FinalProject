@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public interface IEvent { }
 
 public class ScoreEvent: IEvent 
@@ -15,3 +16,12 @@ public class ObstacleEvent: IEvent
 }
 
 public class GameOverEvent: IEvent { }
+
+public class SceneChangeEvent: IEvent 
+{
+    public SceneIndex Stage { get; set; }  
+}
+
+public class SceneChangingEvent : IEvent { }
+
+public class DistanceMilestoneEvent: IEvent { }

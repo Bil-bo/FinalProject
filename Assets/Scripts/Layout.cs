@@ -9,20 +9,17 @@ public class Layout : MovingObject
 
 
     [SerializeField]
-    public int index = -1;
+    protected int index = -1;
 
-    private bool pass = false;
+    protected bool pass = false;
 
     public Action<int> InitPass;
 
-    public int test = 10;
-
-    private void OnTriggerEnter2D(Collider2D collision)
+    protected virtual void OnTriggerEnter2D(Collider2D collision)
     {
 
         if (collision.CompareTag("Pass") && !pass)
         {
-            Debug.Log("invoking now");
             InitPass.Invoke(index);
             pass = true;
 

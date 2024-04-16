@@ -18,7 +18,7 @@ public class Ground : MovingObject
 
     protected override void Update()
     {
-        Offset = XVel * speed * Time.deltaTime * Vector2.right;
+        Offset = XVel * Speed * Time.deltaTime * Vector2.right;
         Floor.mainTextureOffset += Offset;
     }
 

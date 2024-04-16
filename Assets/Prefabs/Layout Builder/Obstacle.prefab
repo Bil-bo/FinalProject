@@ -44,8 +44,8 @@ GameObject:
   - component: {fileID: 2155179011927833995}
   - component: {fileID: 2649603875426772740}
   - component: {fileID: 7394942140049984584}
-  - component: {fileID: 5670512213648297349}
   - component: {fileID: 7721022555775277435}
+  - component: {fileID: 4462315417630783892}
   m_Layer: 0
   m_Name: Obstacle
   m_TagString: Untagged
@@ -192,22 +192,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &5670512213648297349
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3970109560362404910}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 94721e3bb1d0ee84f8b6621459acffc2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ObstacleSprites:
-  - {fileID: 1691502185953632465, guid: 89d541862840edd4fafc0c8180cd3880, type: 3}
-  - {fileID: 3291457836662743124, guid: 89d541862840edd4fafc0c8180cd3880, type: 3}
-  - {fileID: 7859301371037692837, guid: 89d541862840edd4fafc0c8180cd3880, type: 3}
 --- !u!111 &7721022555775277435
 Animation:
   m_ObjectHideFlags: 0
@@ -224,3 +208,20 @@ Animation:
   m_PlayAutomatically: 1
   m_AnimatePhysics: 0
   m_CullingType: 0
+--- !u!114 &4462315417630783892
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3970109560362404910}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18e9c0c8b0b529b4f827622de104f5de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Points: -10
+  PickupSprites:
+  - {fileID: 7859301371037692837, guid: 89d541862840edd4fafc0c8180cd3880, type: 3}
+  - {fileID: 3291457836662743124, guid: 89d541862840edd4fafc0c8180cd3880, type: 3}
+  - {fileID: 1691502185953632465, guid: 89d541862840edd4fafc0c8180cd3880, type: 3}

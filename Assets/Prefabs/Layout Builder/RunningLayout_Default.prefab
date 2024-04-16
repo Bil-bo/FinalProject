@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7573090656781033994}
   - component: {fileID: 564828326523280158}
   m_Layer: 0
-  m_Name: Layout_Default
+  m_Name: RunningLayout_Default
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
