@@ -15,7 +15,6 @@ public class Background : MovingObject
     private void Awake()
     {
         background = GetComponent<Renderer>().material;
-        Direction = Vector2.right;
 
 }
 

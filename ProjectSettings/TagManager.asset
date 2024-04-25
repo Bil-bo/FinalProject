@@ -11,6 +11,9 @@ TagManager:
   - Switch
   - Falling
   - Flying
+  - MiniGame
+  - Spot
+  - Negative
   layers:
   - Default
   - TransparentFX

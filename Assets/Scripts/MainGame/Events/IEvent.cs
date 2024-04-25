@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 
@@ -46,3 +47,5 @@ public class SpeedEvent: PowerUpEvent
 {
     public float SpeedIncrease {  get; set; }   
 }
+
+public class ReviveEvent: IEvent { }

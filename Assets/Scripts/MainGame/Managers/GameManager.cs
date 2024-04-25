@@ -7,11 +7,11 @@ public class GameManager : MonoBehaviour,
     IOnScoreEvent, IOnSceneChangeEvent, 
     IOnSceneChangingEvent, IOnGameOverEvent,
     IOnPauseEvent, IOnRestartEvent,
-    IOnSpeedEvent
+    IOnSpeedEvent, IOnReviveEvent
 {
 
     [SerializeField]
-    private GameObject VirtualCamera;
+    private CinemachineVirtualCamera VirtualCamera;
 
     [SerializeField]
     private GameObject Player;
@@ -27,6 +27,8 @@ public class GameManager : MonoBehaviour,
     private float SpeedSave;
     private bool SpeedSuper = false;
 
+    private LeaderBoard Highscores = new LeaderBoard();
+
     [SerializeField]
     private float SpeedIncrease = 0.1f;
 
@@ -35,6 +37,9 @@ public class GameManager : MonoBehaviour,
 
     [SerializeField]
     private GameObject FallingObjects;
+
+    [SerializeField]
+    private GameObject FallingGround;
 
     [SerializeField]
     private GameObject FlyingObjects;
@@ -57,6 +62,7 @@ public class GameManager : MonoBehaviour,
 
     private bool UpdateSpeed = true;
     private bool GameOver = false;
+    private bool Paused = false;
 
 
     private void Awake()
@@ -68,12 +74,15 @@ public class GameManager : MonoBehaviour,
         EventManager.AddListener<PauseEvent>(OnPauseEvent);
         EventManager.AddListener<RestartEvent>(OnRestart);
         EventManager.AddListener<SpeedEvent>(OnSpeed);
+        EventManager.AddListener<ReviveEvent>(OnRevive);
 
 
 
-        VirtualCamera.GetComponent<CinemachineVirtualCamera>().GetCinemachineComponent<CinemachineFramingTransposer>().enabled = false;
+        VirtualCamera.GetCinemachineComponent<CinemachineFramingTransposer>().enabled = false;
 
-        InitSpeed = Speed;
+        SpeedSave = InitSpeed = Speed;
+        Highscores.LoadFromJSON();
+
     }
 
     // Update is called once per frame
@@ -131,19 +140,17 @@ public class GameManager : MonoBehaviour,
     public void OnSceneChange(SceneChangeEvent eventData)
     {
         Scene = eventData.Stage;
-        CinemachineFramingTransposer camPart = VirtualCamera.GetComponent<CinemachineVirtualCamera>().GetCinemachineComponent<CinemachineFramingTransposer>();
+        CinemachineFramingTransposer camPart = VirtualCamera.GetCinemachineComponent<CinemachineFramingTransposer>();
 
         switch (Scene)
         {
             case SceneIndex.FALLING:
                 RunningObjects.SetActive(false);
                 FallingObjects.SetActive(true);
+                FallingGround.SetActive(true);
                 FlyingObjects.SetActive(false);
-                ChangeDirection(Vector2.up);
-
                 Player.transform.position = new Vector2(100, 10);
-                VirtualCamera.GetComponent<CinemachineConfiner2D>().m_BoundingShape2D = GameObject.FindGameObjectWithTag("Falling").GetComponent<PolygonCollider2D>();
-                camPart.enabled = true;
+                VirtualCamera.transform.position = new Vector3(100, 0, -1);
                 camPart.m_TrackedObjectOffset = new Vector2(0, camPart.m_TrackedObjectOffset.y);
                 break;
             case SceneIndex.RUNNING:
@@ -151,12 +158,9 @@ public class GameManager : MonoBehaviour,
                 RunningObjects.SetActive(true);
                 FallingObjects.SetActive(false);
                 FlyingObjects.SetActive(false);
-                ChangeDirection(Vector2.left);
 
                 Player.transform.position = new Vector2(-14.5f, -8.5f);
                 VirtualCamera.transform.position = new Vector3(0, 0, -1);
-                VirtualCamera.GetComponent<CinemachineConfiner2D>().m_BoundingShape2D = null;
-                camPart.enabled = false;
                 camPart.m_TrackedObjectOffset = new Vector2(14.5f, camPart.m_TrackedObjectOffset.y);
 
                 break;
@@ -164,11 +168,9 @@ public class GameManager : MonoBehaviour,
                 RunningObjects.SetActive(false);
                 FallingObjects.SetActive(false);
                 FlyingObjects.SetActive(true);
-                ChangeDirection(Vector2.down);
 
                 Player.transform.position = new Vector2(200, -8);
-                VirtualCamera.GetComponent<CinemachineConfiner2D>().m_BoundingShape2D = GameObject.FindGameObjectWithTag("Flying").GetComponent<PolygonCollider2D>();
-                camPart.enabled = true;
+                VirtualCamera.transform.position = new Vector3(200, 0, -1);
                 camPart.m_TrackedObjectOffset = new Vector2(0, camPart.m_TrackedObjectOffset.y);
 
 
@@ -187,11 +189,13 @@ public class GameManager : MonoBehaviour,
     {
         GameOver = true;
         GameStop(true);
-
+        Highscores.AddToScores(Score);
+        Highscores.SaveAsJSON();
     }
 
     public void OnPauseEvent(PauseEvent eventData)
     {
+        Paused = eventData.Status;
         GameStop(eventData.Status);
 
     }
@@ -200,6 +204,7 @@ public class GameManager : MonoBehaviour,
     public void OnSceneChanging(SceneChangingEvent eventData)
     {
         GameStop(true);
+        if (Scene == SceneIndex.FALLING) { FallingGround.SetActive(false); }
 
     }
 
@@ -221,40 +226,75 @@ public class GameManager : MonoBehaviour,
 
     private IEnumerator SuperSpeed(float speed, float activeTime)
     {
-        GameStop(true);
+
+        float superSave = Speed;
         Speed = speed;
         SpeedSuper = true;
-        yield return new WaitForSeconds(activeTime);
+        UpdateSpeed = false;
+        while (activeTime > 0) 
+        {
+            if (!Paused)
+            {
+                activeTime -= 0.1f;
+            }
+
+            yield return new WaitForSeconds(0.1f);
+        }
+
+        if (GameOver)
+        {
+            SpeedSuper = false;
+            SpeedSave = superSave;
+        }
+
+        while (Paused) { yield return new WaitForSeconds(0.1f); }
+
         if (!GameOver)
         {
-            GameStop(false);
             SpeedSuper = false;
+            Speed = superSave;
+            UpdateSpeed = true;
         }
+
+
     }
 
-    private void ChangeDirection(Vector2 newDirection)
+    public void OnRevive(ReviveEvent eventData) 
     {
-        MovingObject[] movingObjects = FindObjectsOfType<MovingObject>();
-
-        foreach (MovingObject obj in movingObjects)
+        switch (Scene)
         {
-            obj.UpdateDirection(newDirection);
+            case SceneIndex.FALLING:
+                Player.transform.position = new Vector2(100, 10);
+                break;
+            case SceneIndex.RUNNING:
+                Player.transform.position = new Vector2(-14.5f, -8.5f);
+
+                break;
+            case SceneIndex.FLYING:
+                Player.transform.position = new Vector2(200, -8);
+                break;
         }
+        GameOver = false;
+        GameStop(false);
+
     }
 
     private void GameStop(bool stop) 
     {
         if (stop) 
         {
-            SpeedSave = Speed;
+            if (!(SpeedSuper && GameOver)) { SpeedSave = Speed; }
+            Debug.Log(SpeedSave);
             Speed = 0;
             UpdateSpeed = false;
         } else
         {
             Speed = SpeedSave;
-            UpdateSpeed = true;
+            if (!SpeedSuper) { UpdateSpeed = true; }
         }
     }
+
+
 
     private void OnDestroy()
     {
@@ -265,6 +305,7 @@ public class GameManager : MonoBehaviour,
         EventManager.RemoveListener<PauseEvent>(OnPauseEvent);
         EventManager.RemoveListener<RestartEvent>(OnRestart);
         EventManager.RemoveListener<SpeedEvent>(OnSpeed);
+        EventManager.RemoveListener<ReviveEvent>(OnRevive);
     }
 
 }

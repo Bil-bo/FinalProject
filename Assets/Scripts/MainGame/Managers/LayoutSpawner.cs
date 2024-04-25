@@ -2,16 +2,22 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-public class LayoutSpawner : MonoBehaviour, IOnSceneChangeEvent, IOnDistanceMilestoneEvent
+public class LayoutSpawner : MonoBehaviour, 
+    IOnSceneChangeEvent, IOnDistanceMilestoneEvent,
+    IOnReviveEvent
 {
     [SerializeField]
     public GameObject Layouts;
 
     [SerializeField]
     public SceneIndex Scene;
+
+    [SerializeField]
+    private GameObject[] TriggerPoints = new GameObject[2];
 
 
     [SerializeField]
@@ -31,17 +37,30 @@ public class LayoutSpawner : MonoBehaviour, IOnSceneChangeEvent, IOnDistanceMile
     [SerializeField]
     private List<GameObject> PowerUpList = new List<GameObject>();
 
+    [SerializeField]
+    private Vector2 Direction;
+
 
 
     private void Start()
     {
         EventManager.AddListener<SceneChangeEvent>(OnSceneChange);
         EventManager.AddListener<DistanceMilestoneEvent>(OnDistanceMilestone);
+        EventManager.AddListener<ReviveEvent>(OnRevive);
+
         if (GameObject.FindGameObjectWithTag("Manager").GetComponent<GameManager>().Scene == Scene)
         {
-            Activated = true;
-            SpawnGround(-1);
+            OnEnable();
         }
+    }
+
+    private void OnEnable()
+    {
+        foreach (GameObject t in TriggerPoints ) { t.SetActive(true); }
+        RemoveObstacles();
+        Activated = true;
+        SpawnGround(-1);
+
     }
 
     private void SpawnGround(int index)
@@ -87,9 +106,9 @@ public class LayoutSpawner : MonoBehaviour, IOnSceneChangeEvent, IOnDistanceMile
                 Send(true);
             }
         }
-
-
     }
+
+
 
     private void Send(bool queued)
     {
@@ -105,6 +124,7 @@ public class LayoutSpawner : MonoBehaviour, IOnSceneChangeEvent, IOnDistanceMile
 
         CurrentLayout = Instantiate(CurrentLayout, this.transform.position, Quaternion.identity, Layouts.transform);
         Layout layoutCode = CurrentLayout.GetComponent<Layout>();
+        layoutCode.UpdateDirection(Direction);
 
         layoutCode.InitPass += e => SpawnGround(e);
 
@@ -126,28 +146,11 @@ public class LayoutSpawner : MonoBehaviour, IOnSceneChangeEvent, IOnDistanceMile
 
         float magnitude = Random.Range(1f, 10f);
 
-        float frequency = Random.Range(1f, 10f);
+        float frequency = Random.Range(1f, 6f);
 
         float speed = Random.Range(1f, 6f);
 
-        Vector2 direction;
-        switch (Scene)
-        {
-
-            case SceneIndex.FALLING:
-                direction = Vector2.up; 
-                break;
-            case SceneIndex.FLYING:
-                direction = Vector2.down;
-                break;
-
-            case SceneIndex.RUNNING:
-            default:
-                direction = Vector2.left;
-                break;
-        }
-
-        powData.Send(direction, speed, magnitude, frequency);
+        powData.Send(Direction, speed, magnitude, frequency);
 
     }
 
@@ -155,20 +158,19 @@ public class LayoutSpawner : MonoBehaviour, IOnSceneChangeEvent, IOnDistanceMile
     {
         foreach (Transform child in Layouts.transform)
         {
-            if (!child.CompareTag("Switch"))
-            {
-                Destroy(child.gameObject);
-            }
+            Destroy(child.gameObject);
 
         }
     }
 
     private IEnumerator PrepareSwitch()
     {
+        Debug.Log("Triggered");
         while (Layouts.transform.childCount > 1)
         {
             yield return null;  
         }
+        foreach (GameObject t in TriggerPoints) { t.SetActive(false); }
         EventManager.Broadcast(new SceneChangingEvent());
 
     }
@@ -194,6 +196,16 @@ public class LayoutSpawner : MonoBehaviour, IOnSceneChangeEvent, IOnDistanceMile
         if (Activated)
         {
             InstanceList.AddRange(TransitionList);
+            if (HoldingList.Count == 0) { SpawnGround(-1); }
+        }
+    }
+
+    public void OnRevive(ReviveEvent eventData) 
+    {
+        GameObject[] bad = GameObject.FindGameObjectsWithTag("Negative");
+        foreach (GameObject b in bad) 
+        {
+            b.SetActive(false);
         }
     }
 
@@ -209,6 +221,7 @@ public class LayoutSpawner : MonoBehaviour, IOnSceneChangeEvent, IOnDistanceMile
     {
         EventManager.RemoveListener<SceneChangeEvent>(OnSceneChange);
         EventManager.RemoveListener<DistanceMilestoneEvent>(OnDistanceMilestone);
+        EventManager.RemoveListener<ReviveEvent>(OnRevive);
 
         if (CurrentLayout != null)
         {

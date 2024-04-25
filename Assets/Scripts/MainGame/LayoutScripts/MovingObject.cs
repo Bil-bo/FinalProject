@@ -6,6 +6,8 @@ public abstract class MovingObject : MonoBehaviour
 {
 
     protected float Speed = 0f;
+
+    [SerializeField]
     protected Vector2 Direction = Vector2.left;
 
     // Update is called once per frame

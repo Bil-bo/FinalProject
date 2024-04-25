@@ -52,3 +52,8 @@ public interface IOnSpeedEvent : IObserve
 {
     void OnSpeed(SpeedEvent eventData);
 }
+
+public interface IOnReviveEvent : IObserve
+{
+    void OnRevive(ReviveEvent eventData);
+}
