@@ -67,7 +67,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 7977457162588284198, guid: a3030190fde20874785ee016a3fee299, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -90,6 +90,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   IsDirty: 0
+  img: {fileID: 4283490170663270127}
 --- !u!114 &1414125137656582720
 MonoBehaviour:
   m_ObjectHideFlags: 0

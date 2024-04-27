@@ -3,12 +3,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class Tooth : MonoBehaviour
 {
     // Start is called before the first frame update
     public bool IsDirty = false;
     private float CleanPercent = 100f;
+
+    [SerializeField]
+    private Image img;
     public Action<Tooth> Cleaned;
 
     private Vector2 pos;
@@ -17,6 +21,7 @@ public class Tooth : MonoBehaviour
     private void OnEnable()
     {
         CleanPercent = 100f;
+        img.color = new Color(img.color.r, img.color.g, img.color.b, 1f);
     }
 
     public void CleaningStart(BaseEventData eventData)
@@ -35,7 +40,8 @@ public class Tooth : MonoBehaviour
             PointerEventData ped = eventData as PointerEventData;
             if (ped.position != pos) 
             {
-                CleanPercent -= (Mathf.Abs(pos.x - ped.position.x) + Mathf.Abs(pos.y - ped.position.y)) / 1000f;
+                CleanPercent -= (Mathf.Abs(pos.x - ped.position.x) + Mathf.Abs(pos.y - ped.position.y)) / 750f;
+                img.color = new Color(img.color.r, img.color.g, img.color.b, 1f * (CleanPercent/100f));
                 Debug.Log(CleanPercent.ToString());
                 if (CleanPercent <= 0f) 
                 {

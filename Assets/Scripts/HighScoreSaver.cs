@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [Serializable]
-public class LeaderBoard
+public class HighScoreSaver
 {
     public List<int> Scores = new();
 
@@ -27,11 +27,21 @@ public class LeaderBoard
         Debug.Log(PlayerPrefs.GetString("Highscore"));
     }
 
-    public void LoadFromJSON()
+    public List<int> LoadFromJSON()
     {
-        string JSONscores = PlayerPrefs.GetString("Highscore");
-        Scores = JsonUtility.FromJson<LeaderBoard>(JSONscores).Scores;
-        Scores.ForEach(x => Debug.Log(x));
+        if (PlayerPrefs.HasKey("Highscore"))
+        {
+            string JSONscores = PlayerPrefs.GetString("Highscore");
+            Scores = JsonUtility.FromJson<HighScoreSaver>(JSONscores).Scores;
+            Scores.ForEach(x => Debug.Log(x));
+            return Scores;
+        }
+
+        else
+        {
+            return null;
+        }
+
         
     }
 

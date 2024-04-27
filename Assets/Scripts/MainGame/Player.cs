@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine.InputSystem;
 using UnityEngine;
-using System.Diagnostics;
+
 
 public class Player : MonoBehaviour,
     IOnSceneChangingEvent, IOnSceneChangeEvent,
@@ -15,10 +15,7 @@ public class Player : MonoBehaviour,
     public int JumpHeight;
 
     [SerializeField]
-    private GameObject SoapShot;
-
-    [SerializeField]
-    public int speed;
+    private int speed;
 
     private int _speed;
 
@@ -31,6 +28,9 @@ public class Player : MonoBehaviour,
     [SerializeField]
     public LayerMask groundLayer;
 
+    [SerializeField]
+    private GameObject SoapShot;
+
     private Camera cam;
 
     private Rigidbody2D rb;
@@ -40,9 +40,10 @@ public class Player : MonoBehaviour,
     private Vector3 minScreenBounds;
     private Vector3 maxScreenBounds;
     private Collider2D pBounds;
-    private Animator Animator;
+    public Animator Animator;
     private SceneIndex Scene;
     private Vector2 VelSave;
+   
 
     private bool Jumping = false;
     private bool Grounded = true;
@@ -72,6 +73,7 @@ public class Player : MonoBehaviour,
 
     private void OnJump()
     {
+
         if (Scene == SceneIndex.FLYING)
         {
             Instantiate(SoapShot, transform.position, Quaternion.identity);
@@ -197,6 +199,9 @@ public class Player : MonoBehaviour,
     public void OnSceneChange(SceneChangeEvent eventData)
     {
         if (Scene == SceneIndex.FLYING) { rb.gravityScale = 5; }
+        rb.constraints = RigidbodyConstraints2D.FreezeRotation;
+        rb.WakeUp();
+        rb.velocity = VelSave;
         GetComponent<PlayerInput>().ActivateInput();
         Transitioning = false;
         Scene = eventData.Stage;
@@ -244,6 +249,7 @@ public class Player : MonoBehaviour,
 
     public void OnGameOver(GameOverEvent eventData)
     {
+        Animator.SetTrigger("GameOver");
         GetComponent<PlayerInput>().DeactivateInput();
         pBounds.enabled = false;
         if (StrengthPowerUp) { StopAllCoroutines(); StrengthPowerUp = false; }

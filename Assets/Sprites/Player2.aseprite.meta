@@ -140,17 +140,17 @@ ScriptedImporter:
     tessellationDetail: 0
     uvTransform: {x: 4, y: 4}
   spriteSheetImportData:
-  - name: Player2_0
+  - name: Player
     originalName: 
-    pivot: {x: 0.5, y: 0.5}
+    pivot: {x: 0, y: 0}
     alignment: 0
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
       serializedVersion: 2
       x: 7
-      y: 223
+      y: 220
       width: 20
-      height: 25
+      height: 28
     spriteID: 2e1e75b5a01bc394195945477ffefc14
     spriteBone: []
     spriteOutline: []
@@ -162,7 +162,7 @@ ScriptedImporter:
     uvTransform: {x: 0, y: 0}
   - name: PlayerRun_1
     originalName: 
-    pivot: {x: 0.5, y: 0.5}
+    pivot: {x: 0, y: 0}
     alignment: 0
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
@@ -182,7 +182,7 @@ ScriptedImporter:
     uvTransform: {x: 0, y: 0}
   - name: PlayerRun_2
     originalName: 
-    pivot: {x: 0.5, y: 0.5}
+    pivot: {x: 0, y: 0}
     alignment: 0
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
@@ -202,7 +202,7 @@ ScriptedImporter:
     uvTransform: {x: 0, y: 0}
   - name: PlayerRun_3
     originalName: 
-    pivot: {x: 0.5, y: 0.5}
+    pivot: {x: 0, y: 0}
     alignment: 0
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
@@ -222,7 +222,7 @@ ScriptedImporter:
     uvTransform: {x: 0, y: 0}
   - name: PlayerJump_End
     originalName: 
-    pivot: {x: 0.5, y: 0.5}
+    pivot: {x: 0, y: 0}
     alignment: 0
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
@@ -242,7 +242,7 @@ ScriptedImporter:
     uvTransform: {x: 0, y: 0}
   - name: PlayerJump_Start
     originalName: 
-    pivot: {x: 0.5, y: 0.5}
+    pivot: {x: 0, y: 0}
     alignment: 0
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
@@ -262,7 +262,7 @@ ScriptedImporter:
     uvTransform: {x: 0, y: 0}
   - name: PlayerJump_Peak
     originalName: 
-    pivot: {x: 0.5, y: 0.5}
+    pivot: {x: 0, y: 0}
     alignment: 0
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
@@ -280,17 +280,17 @@ ScriptedImporter:
     edges: []
     tessellationDetail: 0
     uvTransform: {x: 0, y: 0}
-  - name: Player2_7
+  - name: PlayerGameOver
     originalName: 
-    pivot: {x: 0.5, y: 0.5}
+    pivot: {x: 0, y: 0}
     alignment: 0
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
       serializedVersion: 2
-      x: 10
+      x: 8
       y: 157
-      width: 14
-      height: 29
+      width: 22
+      height: 27
     spriteID: 714bafd89316ecd499d98ec75e6e036c
     spriteBone: []
     spriteOutline: []
@@ -302,7 +302,7 @@ ScriptedImporter:
     uvTransform: {x: 0, y: 0}
   - name: EnemyBac_1
     originalName: 
-    pivot: {x: 0.5, y: 0.5}
+    pivot: {x: 0, y: 0}
     alignment: 0
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
@@ -322,7 +322,7 @@ ScriptedImporter:
     uvTransform: {x: 0, y: 0}
   - name: EnemyBac_2
     originalName: 
-    pivot: {x: 0.5, y: 0.5}
+    pivot: {x: 0, y: 0}
     alignment: 0
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
@@ -342,7 +342,7 @@ ScriptedImporter:
     uvTransform: {x: 0, y: 0}
   - name: EnemyBac_3
     originalName: 
-    pivot: {x: 0.5, y: 0.5}
+    pivot: {x: 0, y: 0}
     alignment: 0
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
@@ -362,7 +362,7 @@ ScriptedImporter:
     uvTransform: {x: 0, y: 0}
   - name: Unhealthy_1
     originalName: 
-    pivot: {x: 0.5, y: 0.5}
+    pivot: {x: 0, y: 0}
     alignment: 0
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
@@ -382,7 +382,7 @@ ScriptedImporter:
     uvTransform: {x: 0, y: 0}
   - name: Unhealthy_2
     originalName: 
-    pivot: {x: 0.5, y: 0.5}
+    pivot: {x: 0, y: 0}
     alignment: 0
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
@@ -402,7 +402,7 @@ ScriptedImporter:
     uvTransform: {x: 0, y: 0}
   - name: Unhealthy_3
     originalName: 
-    pivot: {x: 0.5, y: 0.5}
+    pivot: {x: 0, y: 0}
     alignment: 0
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
@@ -422,7 +422,7 @@ ScriptedImporter:
     uvTransform: {x: 0, y: 0}
   - name: Healthy_1
     originalName: 
-    pivot: {x: 0.5, y: 0.5}
+    pivot: {x: 0, y: 0}
     alignment: 0
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
@@ -442,7 +442,7 @@ ScriptedImporter:
     uvTransform: {x: 0, y: 0}
   - name: Healthy_2
     originalName: 
-    pivot: {x: 0.5, y: 0.5}
+    pivot: {x: 0, y: 0}
     alignment: 0
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
@@ -462,7 +462,7 @@ ScriptedImporter:
     uvTransform: {x: 0, y: 0}
   - name: Healthy_3
     originalName: 
-    pivot: {x: 0.5, y: 0.5}
+    pivot: {x: 0, y: 0}
     alignment: 0
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
@@ -482,7 +482,7 @@ ScriptedImporter:
     uvTransform: {x: 0, y: 0}
   - name: Healthy_4
     originalName: 
-    pivot: {x: 0.5, y: 0.5}
+    pivot: {x: 0, y: 0}
     alignment: 0
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
@@ -502,7 +502,7 @@ ScriptedImporter:
     uvTransform: {x: 0, y: 0}
   - name: Platform_Left
     originalName: 
-    pivot: {x: 0.5, y: 0.5}
+    pivot: {x: 0, y: 0}
     alignment: 0
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
@@ -522,7 +522,7 @@ ScriptedImporter:
     uvTransform: {x: 0, y: 0}
   - name: Platform_Middle
     originalName: 
-    pivot: {x: 0.5, y: 0.5}
+    pivot: {x: 0, y: 0}
     alignment: 0
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
@@ -542,7 +542,7 @@ ScriptedImporter:
     uvTransform: {x: 0, y: 0}
   - name: Platform_Right
     originalName: 
-    pivot: {x: 0.5, y: 0.5}
+    pivot: {x: 0, y: 0}
     alignment: 0
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
@@ -562,7 +562,7 @@ ScriptedImporter:
     uvTransform: {x: 0, y: 0}
   - name: PlayerFallRight_1
     originalName: 
-    pivot: {x: 0.5, y: 0.5}
+    pivot: {x: 0, y: 0}
     alignment: 0
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
@@ -582,7 +582,7 @@ ScriptedImporter:
     uvTransform: {x: 0, y: 0}
   - name: PlayerFallRight_2
     originalName: 
-    pivot: {x: 0.5, y: 0.5}
+    pivot: {x: 0, y: 0}
     alignment: 0
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
@@ -602,7 +602,7 @@ ScriptedImporter:
     uvTransform: {x: 0, y: 0}
   - name: PlayerFallLeft_1
     originalName: 
-    pivot: {x: 0.5, y: 0.5}
+    pivot: {x: 0, y: 0}
     alignment: 0
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
@@ -622,7 +622,7 @@ ScriptedImporter:
     uvTransform: {x: 0, y: 0}
   - name: PlayerFallLeft_2
     originalName: 
-    pivot: {x: 0.5, y: 0.5}
+    pivot: {x: 0, y: 0}
     alignment: 0
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
@@ -642,7 +642,7 @@ ScriptedImporter:
     uvTransform: {x: 0, y: 0}
   - name: PlayerFlyRight_1
     originalName: 
-    pivot: {x: 0.5, y: 0.5}
+    pivot: {x: 0, y: 0}
     alignment: 0
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
@@ -662,7 +662,7 @@ ScriptedImporter:
     uvTransform: {x: 0, y: 0}
   - name: PlayerFlyRight_2
     originalName: 
-    pivot: {x: 0.5, y: 0.5}
+    pivot: {x: 0, y: 0}
     alignment: 0
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
@@ -682,7 +682,7 @@ ScriptedImporter:
     uvTransform: {x: 0, y: 0}
   - name: PlayerFlyLeft_1
     originalName: 
-    pivot: {x: 0.5, y: 0.5}
+    pivot: {x: 0, y: 0}
     alignment: 0
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
@@ -702,7 +702,7 @@ ScriptedImporter:
     uvTransform: {x: 0, y: 0}
   - name: PlayerFlyLeft_2
     originalName: 
-    pivot: {x: 0.5, y: 0.5}
+    pivot: {x: 0, y: 0}
     alignment: 0
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
@@ -722,7 +722,7 @@ ScriptedImporter:
     uvTransform: {x: 0, y: 0}
   - name: EnemyBac_4
     originalName: 
-    pivot: {x: 0.5, y: 0.5}
+    pivot: {x: 0, y: 0}
     alignment: 0
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
@@ -742,7 +742,7 @@ ScriptedImporter:
     uvTransform: {x: 0, y: 0}
   - name: EnemyBac_5
     originalName: 
-    pivot: {x: 0.5, y: 0.5}
+    pivot: {x: 0, y: 0}
     alignment: 0
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
@@ -762,7 +762,7 @@ ScriptedImporter:
     uvTransform: {x: 0, y: 0}
   - name: EnemyBac_6
     originalName: 
-    pivot: {x: 0.5, y: 0.5}
+    pivot: {x: 0, y: 0}
     alignment: 0
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
@@ -782,7 +782,7 @@ ScriptedImporter:
     uvTransform: {x: 0, y: 0}
   - name: EnemyBac_7
     originalName: 
-    pivot: {x: 0.5, y: 0.5}
+    pivot: {x: 0, y: 0}
     alignment: 0
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
@@ -802,7 +802,7 @@ ScriptedImporter:
     uvTransform: {x: 0, y: 0}
   - name: Tooth_Healthy
     originalName: 
-    pivot: {x: 0.5, y: 0.5}
+    pivot: {x: 0, y: 0}
     alignment: 0
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
@@ -822,7 +822,7 @@ ScriptedImporter:
     uvTransform: {x: 0, y: 0}
   - name: Tooth_Dirty
     originalName: 
-    pivot: {x: 0.5, y: 0.5}
+    pivot: {x: 0, y: 0}
     alignment: 0
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
@@ -842,7 +842,7 @@ ScriptedImporter:
     uvTransform: {x: 0, y: 0}
   - name: SoapShot
     originalName: 
-    pivot: {x: 0.5, y: 0.5}
+    pivot: {x: 0, y: 0}
     alignment: 0
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
@@ -852,6 +852,106 @@ ScriptedImporter:
       width: 9
       height: 12
     spriteID: 8ecf458832340e54e9bf463d5c8c345e
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 0, y: 0}
+  - name: Unhealthy_4
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 109
+      y: 36
+      width: 10
+      height: 17
+    spriteID: d443eefe57c75ec4aa6b2160dc9ef927
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 0, y: 0}
+  - name: Unhealthy_5
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 140
+      y: 36
+      width: 12
+      height: 14
+    spriteID: eee4acb7692fab84fadeea8ffe7a66c1
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 0, y: 0}
+  - name: Unhealthy_6
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 171
+      y: 35
+      width: 15
+      height: 16
+    spriteID: c372678dc7eaff5448ac2bc59b4e795e
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 0, y: 0}
+  - name: Healthy_5
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 139
+      y: 5
+      width: 14
+      height: 17
+    spriteID: bce4c8a829301524c89ad07a6156b30f
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 0, y: 0}
+  - name: Healthy_6
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 169
+      y: 4
+      width: 16
+      height: 18
+    spriteID: 9b0d44bd21f74b945bd58bbaa409c886
     spriteBone: []
     spriteOutline: []
     vertices: []

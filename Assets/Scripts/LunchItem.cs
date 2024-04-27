@@ -43,6 +43,7 @@ public class LunchItem : MonoBehaviour
     public void DragStart()
     {
         img.raycastTarget = false;
+        transform.SetParent(initPos, true);
 
     }
     public void Dragging(BaseEventData eventData)
@@ -62,8 +63,13 @@ public class LunchItem : MonoBehaviour
         if (pos.x < BoundLeft || pos.x >= BoundRight ||
             pos.y < BoundBottom || pos.y >= BoundTop)
         {
-            transform.localPosition = StartPos;
+            ResetPos();
         }
+    }
+
+    public void ResetPos()
+    {
+        transform.localPosition = StartPos;
     }
 
 }

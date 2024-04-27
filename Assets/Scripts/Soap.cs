@@ -17,8 +17,9 @@ public class Soap : MonoBehaviour
         transform.Translate(Velocity * Time.deltaTime);
     }
 
-    private void OnTriggerExit(Collider other)
+    private void OnTriggerEnter2D(Collider2D other)
     {
+        Debug.Log("collision");
         if (other.CompareTag("Negative"))
         {
             EventManager.Broadcast(new ScoreEvent() { Points = Score });
@@ -27,6 +28,15 @@ public class Soap : MonoBehaviour
         }
 
         else if (other.CompareTag("Pass")) 
+        {
+            Destroy(gameObject);
+        }
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        Debug.Log("collisionds");
+        if (collision.gameObject.CompareTag("Pass"))
         {
             Destroy(gameObject);
         }

@@ -14,7 +14,7 @@ public class GameManager : MonoBehaviour,
     private CinemachineVirtualCamera VirtualCamera;
 
     [SerializeField]
-    private GameObject Player;
+    private Player _Player;
 
     [SerializeField] 
     private HUD canvas;
@@ -27,7 +27,7 @@ public class GameManager : MonoBehaviour,
     private float SpeedSave;
     private bool SpeedSuper = false;
 
-    private LeaderBoard Highscores = new LeaderBoard();
+    private HighScoreSaver Highscores = new HighScoreSaver();
 
     [SerializeField]
     private float SpeedIncrease = 0.1f;
@@ -149,7 +149,7 @@ public class GameManager : MonoBehaviour,
                 FallingObjects.SetActive(true);
                 FallingGround.SetActive(true);
                 FlyingObjects.SetActive(false);
-                Player.transform.position = new Vector2(100, 10);
+                _Player.transform.position = new Vector2(100, 10);
                 VirtualCamera.transform.position = new Vector3(100, 0, -1);
                 camPart.m_TrackedObjectOffset = new Vector2(0, camPart.m_TrackedObjectOffset.y);
                 break;
@@ -159,7 +159,7 @@ public class GameManager : MonoBehaviour,
                 FallingObjects.SetActive(false);
                 FlyingObjects.SetActive(false);
 
-                Player.transform.position = new Vector2(-14.5f, -8.5f);
+                _Player.transform.position = new Vector2(-14.5f, -8.5f);
                 VirtualCamera.transform.position = new Vector3(0, 0, -1);
                 camPart.m_TrackedObjectOffset = new Vector2(14.5f, camPart.m_TrackedObjectOffset.y);
 
@@ -169,7 +169,7 @@ public class GameManager : MonoBehaviour,
                 FallingObjects.SetActive(false);
                 FlyingObjects.SetActive(true);
 
-                Player.transform.position = new Vector2(200, -8);
+                _Player.transform.position = new Vector2(200, -8);
                 VirtualCamera.transform.position = new Vector3(200, 0, -1);
                 camPart.m_TrackedObjectOffset = new Vector2(0, camPart.m_TrackedObjectOffset.y);
 
@@ -264,16 +264,17 @@ public class GameManager : MonoBehaviour,
         switch (Scene)
         {
             case SceneIndex.FALLING:
-                Player.transform.position = new Vector2(100, 10);
+                _Player.transform.position = new Vector2(100, 10);
                 break;
             case SceneIndex.RUNNING:
-                Player.transform.position = new Vector2(-14.5f, -8.5f);
+                _Player.transform.position = new Vector2(-14.5f, -8.5f);
 
                 break;
             case SceneIndex.FLYING:
-                Player.transform.position = new Vector2(200, -8);
+                _Player.transform.position = new Vector2(200, -8);
                 break;
         }
+        _Player.Animator.SetTrigger("Transition");
         GameOver = false;
         GameStop(false);
 

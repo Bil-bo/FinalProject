@@ -5,7 +5,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
-public class HUD : MonoBehaviour, IOnGameOverEvent, IOnRestartEvent
+public class HUD : MonoBehaviour, 
+    IOnGameOverEvent, IOnRestartEvent
 {
     [SerializeField]
     private TextMeshProUGUI DistanceText;
@@ -40,6 +41,7 @@ public class HUD : MonoBehaviour, IOnGameOverEvent, IOnRestartEvent
     }
 
     public bool IsPaused = false;
+    private bool CanPause = true;
     private bool SecondChance = false;
     private GameObject[] Minigames;
 
@@ -68,11 +70,13 @@ public class HUD : MonoBehaviour, IOnGameOverEvent, IOnRestartEvent
         if (complete)
         {
             SecondChance = true;
+            CanPause = true;
+            PauseButton.interactable = true;
             EventManager.Broadcast(new ReviveEvent());
         }
         else
         {
-            int highscore = JsonUtility.FromJson<LeaderBoard>(PlayerPrefs.GetString("Highscore")).Scores[0];
+            int highscore = JsonUtility.FromJson<HighScoreSaver>(PlayerPrefs.GetString("Highscore")).Scores[0];
             GameOverHighScore.text = "Highscore\n" + highscore;
             GameOverMenu.SetActive(true);
             PauseButton.interactable = false;
@@ -84,7 +88,7 @@ public class HUD : MonoBehaviour, IOnGameOverEvent, IOnRestartEvent
     public void ButtonPause()
     {
 
-        if (!IsPaused)
+        if (!IsPaused && CanPause)
         {
             PauseButton.interactable = false;
             OnPause();
@@ -93,42 +97,49 @@ public class HUD : MonoBehaviour, IOnGameOverEvent, IOnRestartEvent
 
     public void OnPause()
     {
-        PauseEvent data = new PauseEvent();
-
-        if (!IsPaused)
+        if (CanPause)
         {
-            IsPaused = true;
-            PauseMenu.SetActive(true);
-            FactMenu.SetActive(true);
-            PauseButton.interactable = false;
-            data.Status = true;
-            EventManager.Broadcast(data);
+            PauseEvent data = new PauseEvent();
+
+            if (!IsPaused)
+            {
+                IsPaused = true;
+                PauseMenu.SetActive(true);
+                FactMenu.SetActive(true);
+                PauseButton.interactable = false;
+                data.Status = true;
+                EventManager.Broadcast(data);
 
 
-        } 
-        else
-        {
+            }
+            else
+            {
 
-            IsPaused = false;
-            PauseMenu.SetActive(false);
-            FactMenu.SetActive(false);  
-            PauseButton.interactable = true;
-            data.Status = false;
+                IsPaused = false;
+                PauseMenu.SetActive(false);
+                FactMenu.SetActive(false);
+                PauseButton.interactable = true;
+                data.Status = false;
 
-            EventManager.Broadcast(data);
+                EventManager.Broadcast(data);
+            }
         }
     }
 
     private void OnApplicationPause(bool pause)
     {
-        IsPaused = !pause;
-        Debug.Log(pause);
-        OnPause();
+        if (CanPause)
+        {
+            IsPaused = !pause;
+            OnPause();
+        }
     }
 
 
     public void OnGameOver(GameOverEvent eventData)
     {
+        CanPause = false;
+        PauseButton.interactable = false;
         if (!SecondChance)
         {
             GameObject miniGame;
@@ -152,12 +163,14 @@ public class HUD : MonoBehaviour, IOnGameOverEvent, IOnRestartEvent
 
     public void OnRestart(RestartEvent eventData)
     {
+        CanPause = true;
         SecondChance = false;
         FactMenu.SetActive(false);
         _PauseButton.interactable = true;
         IsPaused = false;
 
     }
+
 
     public void UpdateLabels(float distance = -1, int score = -1) 
     {

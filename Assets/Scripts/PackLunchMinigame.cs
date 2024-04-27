@@ -40,7 +40,7 @@ public class PackLunchMinigame : Minigame
             if (AllLunch[rand].IsHealthy) { HealthyNum++; }
             ShownLunch.Add(AllLunch[rand]);
             AllLunch.RemoveAt(rand);
-            ShownLunch[ShownLunch.Count-1].transform.SetParent(Positions[pos]);
+            ShownLunch[ShownLunch.Count-1].transform.SetParent(Positions[pos], true);
             ShownLunch[ShownLunch.Count - 1].initPos = Positions[pos];
             ShownLunch[ShownLunch.Count - 1].transform.localPosition = Vector3.zero;
             pos++;
@@ -68,7 +68,7 @@ public class PackLunchMinigame : Minigame
         if (ped.selectedObject != null)
         {
             LunchItem selected = ped.selectedObject.GetComponent<LunchItem>();
-            selected.transform.SetParent(selected.initPos, false);
+            selected.transform.SetParent(selected.initPos, true);
             ped.selectedObject.transform.localPosition = Vector3.zero;
         }
     }
