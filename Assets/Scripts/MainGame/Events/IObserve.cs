@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+// Formality class
+// Forces a general setup to be taken when subscribing to events in classes
 public interface IObserve { }
 
 public interface IOnScoreEvent: IObserve 
@@ -9,10 +12,6 @@ public interface IOnScoreEvent: IObserve
     void OnScore(ScoreEvent eventData);
 }
 
-public interface IOnObstacleEvent : IObserve
-{
-    void OnObstacle(ObstacleEvent eventData);
-}
 public interface IOnGameOverEvent: IObserve
 {
     void OnGameOver(GameOverEvent eventData);

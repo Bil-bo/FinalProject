@@ -12,6 +12,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ScorePowerUp
       objectReference: {fileID: 0}
+    - target: {fileID: 5198415129035751037, guid: 8cd4b22f46450de479af80691a89f1df, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -332169421518265621, guid: 89d541862840edd4fafc0c8180cd3880, type: 3}
     - target: {fileID: 6770373387884608857, guid: 8cd4b22f46450de479af80691a89f1df, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -77,9 +81,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a122863635c61184ab87281ce220c226, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Direction: {x: -1, y: 0, z: 0}
+  Direction: {x: -1, y: 0}
+  DirectionVec: {x: -1, y: 0, z: 0}
   Magnitude: 3
   Frequency: 3
-  Speed: 3
   activeTime: 0
   ExtraScore: 100

@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+// Superclass representing all moving objects
 public abstract class MovingObject : MonoBehaviour
 {
 
@@ -17,6 +19,7 @@ public abstract class MovingObject : MonoBehaviour
 
     }
 
+    // For speeding up or stopping all moving objects
     public virtual void UpdateSpeed(float newSpeed)
     {
         Speed = newSpeed;

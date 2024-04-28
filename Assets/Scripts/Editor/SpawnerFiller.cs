@@ -33,7 +33,7 @@ public class SpawnerFiller: EditorWindow
     {
         if (Spawner != null) 
         {
-            LayoutSpawner realSpawner = Spawner.GetComponent<LayoutSpawner>();
+            LayoutManager realSpawner = Spawner.GetComponent<LayoutManager>();
             if (realSpawner != null) 
             {
 

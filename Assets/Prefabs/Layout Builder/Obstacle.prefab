@@ -221,6 +221,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Points: -30
+  GoodSound: {fileID: 8300000, guid: 2181fc8b122a16d4891025816c6894f4, type: 3}
+  BadSound: {fileID: 8300000, guid: ebe498c5efca0754ea229ce77682df7c, type: 3}
   PickupSprites:
   - {fileID: 1691502185953632465, guid: 89d541862840edd4fafc0c8180cd3880, type: 3}
   - {fileID: 3291457836662743124, guid: 89d541862840edd4fafc0c8180cd3880, type: 3}

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+
+// Class that stores the behaviour for buttons in the menus
 public class GameMenu : MonoBehaviour
 {
     public void Continue()

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 // based on unity's FPS microgame
 // Event manager used as hub for notifying objects of events without creating unecessary dependencies
+// Static to be used by any class
 public static class EventManager
 {
     static readonly Dictionary<Type, Action<IEvent>> s_Events = new Dictionary<Type, Action<IEvent>>();
@@ -11,6 +12,7 @@ public static class EventManager
     static readonly Dictionary<Delegate, Action<IEvent>> s_EventLookups =
         new Dictionary<Delegate, Action<IEvent>>();
 
+    // Add new delegate to list
     public static void AddListener<T>(Action<T> evt) where T : IEvent
     {
 
@@ -27,6 +29,8 @@ public static class EventManager
 
     }
 
+
+    // Remove delegate from list
     public static void RemoveListener<T>(Action<T> evt) where T : IEvent
     {
         if (s_EventLookups.TryGetValue(evt, out var action))
@@ -44,6 +48,7 @@ public static class EventManager
         }
     }
 
+    // Broadcast event to subscribers
     public static void Broadcast(IEvent evt)
     {
         if (s_Events.TryGetValue(evt.GetType(), out var action))
@@ -52,6 +57,7 @@ public static class EventManager
         }
     }
 
+    // Removes all subscribers
     public static void Clear()
     {
         s_Events.Clear();

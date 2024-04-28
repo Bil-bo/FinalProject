@@ -5,6 +5,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
+
+// Main class for the game UI
+// Encapusulates most of the other menus in the game
 public class HUD : MonoBehaviour, 
     IOnGameOverEvent, IOnRestartEvent
 {
@@ -34,6 +37,8 @@ public class HUD : MonoBehaviour,
     [SerializeField]
     private Button PauseButton;
 
+    [SerializeField]
+    private AudioClip PauseSound;
     public Button _PauseButton 
     {
         get { return PauseButton; } 
@@ -60,13 +65,16 @@ public class HUD : MonoBehaviour,
         }
     }
 
+    // Class attached to the action of the currently active minigame
     private void MiniGameCompleted(bool complete)
     {
+        // Deactivates all minigames
         foreach (var item in Minigames)
         {
             item.SetActive(false);
         }
 
+        // Revives the player on success
         if (complete)
         {
             SecondChance = true;
@@ -74,6 +82,7 @@ public class HUD : MonoBehaviour,
             PauseButton.interactable = true;
             EventManager.Broadcast(new ReviveEvent());
         }
+        // Full game over on failure
         else
         {
             int highscore = JsonUtility.FromJson<HighScoreSaver>(PlayerPrefs.GetString("Highscore")).Scores[0];
@@ -85,6 +94,7 @@ public class HUD : MonoBehaviour,
         }
     }
 
+    // Behaviour specific to the pause button
     public void ButtonPause()
     {
 
@@ -95,14 +105,18 @@ public class HUD : MonoBehaviour,
         }
     }
 
+    // For any pause event that occurs
     public void OnPause()
     {
+        // If the game is still currently running as normal
         if (CanPause)
         {
             PauseEvent data = new PauseEvent();
 
+            // If the game is not currently paused, pause the game
             if (!IsPaused)
             {
+                SoundManager.instance.PlayClip(PauseSound, transform, 1f);
                 IsPaused = true;
                 PauseMenu.SetActive(true);
                 FactMenu.SetActive(true);
@@ -112,6 +126,8 @@ public class HUD : MonoBehaviour,
 
 
             }
+
+            // If the game is currently paused, unpause the game
             else
             {
 
@@ -126,6 +142,7 @@ public class HUD : MonoBehaviour,
         }
     }
 
+    // For unitys own pause event, add it into the current pause ecosystem
     private void OnApplicationPause(bool pause)
     {
         if (CanPause)
@@ -135,11 +152,12 @@ public class HUD : MonoBehaviour,
         }
     }
 
-
+    // Deactivate pausing on game over, and also activate a minigame to play
     public void OnGameOver(GameOverEvent eventData)
     {
         CanPause = false;
         PauseButton.interactable = false;
+        // If the player has not already had a second chance, give the minigame
         if (!SecondChance)
         {
             GameObject miniGame;
@@ -153,14 +171,17 @@ public class HUD : MonoBehaviour,
             }
 
             miniGame.SetActive(true);
+            // Subscribe to the completed event for when the mini game finishes
             miniGame.GetComponent<Minigame>().completed += MiniGameCompleted;
         }
+        // otherwise finish the game immediatly
         else
         {
             MiniGameCompleted(false);
         }
     }
 
+    // Reactivate pausing and second chances on restart
     public void OnRestart(RestartEvent eventData)
     {
         CanPause = true;
@@ -171,7 +192,7 @@ public class HUD : MonoBehaviour,
 
     }
 
-
+    // Update the onScreen labels
     public void UpdateLabels(float distance = -1, int score = -1) 
     {
 

@@ -3,6 +3,8 @@ using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
 
+
+// Central logic hub
 public class GameManager : MonoBehaviour, 
     IOnScoreEvent, IOnSceneChangeEvent, 
     IOnSceneChangingEvent, IOnGameOverEvent,
@@ -48,6 +50,9 @@ public class GameManager : MonoBehaviour,
     private int TargetDistance = 20;
 
     [SerializeField]
+    private AudioClip GameOverSound;
+
+    [SerializeField]
     private int SceneTargetDistance = 200;
 
     public SceneIndex Scene;
@@ -76,8 +81,6 @@ public class GameManager : MonoBehaviour,
         EventManager.AddListener<SpeedEvent>(OnSpeed);
         EventManager.AddListener<ReviveEvent>(OnRevive);
 
-
-
         VirtualCamera.GetCinemachineComponent<CinemachineFramingTransposer>().enabled = false;
 
         SpeedSave = InitSpeed = Speed;
@@ -85,14 +88,17 @@ public class GameManager : MonoBehaviour,
 
     }
 
-    // Update is called once per frame
+    // Controls the main game
     void Update()
     {
+        // Constantly slightly increases the speed of the game so long as the bool is true
         if (UpdateSpeed) 
         { 
             Speed += SpeedIncrease * Time.deltaTime;
         }
 
+
+        // Constantly updates the speed of active inheritors of moving objects
         MovingObject[] movingObjects = FindObjectsOfType<MovingObject>();
 
         foreach (MovingObject obj in movingObjects)
@@ -100,31 +106,35 @@ public class GameManager : MonoBehaviour,
             obj.UpdateSpeed(Speed);
         }
 
+
+        // Calculate total distance travelled
         Distance += Speed * Time.deltaTime;
 
-
+        // Calculate distance travelled to next score
         prevDistance += Speed * Time.deltaTime;
 
 
+        // Check if the distance has hit the required mark to update score
         if (prevDistance >= TargetDistance)
         {
             Score += 1;
             prevDistance = 0f;
         }
 
+        // Check if the distance travelled permits transitions to be added to the layout pool
         if (Mathf.RoundToInt(Distance - ScenePrevDistance) >= SceneTargetDistance && !MilestoneAchieved)
         {
             MilestoneAchieved = true;
             EventManager.Broadcast(new DistanceMilestoneEvent());
         }
+        // Update the on screen labels
         canvas.UpdateLabels(Distance, Score);
-
-
-        
     }
 
+    // Event listener for score, updates score, checking for negative values
     public void OnScore(ScoreEvent eventData)
     {
+        // Negative values are ignored during the superspeed powerUp
         if (!(eventData.Points < 0 && SpeedSuper))
         {
 
@@ -137,6 +147,9 @@ public class GameManager : MonoBehaviour,
         }
     }
 
+    // Event listener for a scene change
+    // Depending on the scene, activates and deactivates appropriate gameObjects
+    // And moves the camera and the player to their starting spots in the new scene
     public void OnSceneChange(SceneChangeEvent eventData)
     {
         Scene = eventData.Stage;
@@ -177,22 +190,29 @@ public class GameManager : MonoBehaviour,
                 break;
         }
 
+        // Reactivates the movement
         GameStop(false);
 
+        // Restart checking for distance milestones
         ScenePrevDistance = Distance;
 
-        SceneTargetDistance = Random.Range(200, 1000);
+        SceneTargetDistance = Random.Range(200, 800);
         MilestoneAchieved = false;
     }
 
+
+    // Game over event listener
+    // Saves the current score and stops everything from moving
     public void OnGameOver(GameOverEvent eventData)
     {
+        SoundManager.instance.PlayClip(GameOverSound, transform, 1f);
         GameOver = true;
         GameStop(true);
         Highscores.AddToScores(Score);
         Highscores.SaveAsJSON();
     }
 
+    // Pause event listener, stops and starts the game from moving 
     public void OnPauseEvent(PauseEvent eventData)
     {
         Paused = eventData.Status;
@@ -200,14 +220,17 @@ public class GameManager : MonoBehaviour,
 
     }
 
-
+    // Stops everything from moving
+    // During the falling scene, temporarily deactivates the ground holding the player up
     public void OnSceneChanging(SceneChangingEvent eventData)
     {
         GameStop(true);
         if (Scene == SceneIndex.FALLING) { FallingGround.SetActive(false); }
-
     }
 
+
+    // Restart event listener
+    // Resets variables
     public void OnRestart(RestartEvent eventData)
     {
         Score = 0;
@@ -219,11 +242,15 @@ public class GameManager : MonoBehaviour,
 
     }
 
+    // Speed event powerUp listener
+    // Temporarily increases the speed of the game
     public void OnSpeed(SpeedEvent eventData) 
     {
         StartCoroutine(SuperSpeed(eventData.SpeedIncrease, eventData.ActiveTime));
     }
 
+    // Timer for superSpeed events
+    // Stop during pauses and stops completely on a gameover or restart
     private IEnumerator SuperSpeed(float speed, float activeTime)
     {
 
@@ -259,6 +286,8 @@ public class GameManager : MonoBehaviour,
 
     }
 
+    // event listener for if the player successfully completes the minigame
+    // Resets the player to the starting position
     public void OnRevive(ReviveEvent eventData) 
     {
         switch (Scene)
@@ -280,15 +309,22 @@ public class GameManager : MonoBehaviour,
 
     }
 
+
+    // For controlling whether or not objects in the scene are moving
     private void GameStop(bool stop) 
     {
+        // Freezing the game
         if (stop) 
         {
+            // Speed is not saved here during a super speed event or on a game over
+            // To prevent permanently increasing or decreasing the speed to unintended values
             if (!(SpeedSuper && GameOver)) { SpeedSave = Speed; }
             Debug.Log(SpeedSave);
             Speed = 0;
             UpdateSpeed = false;
-        } else
+        }
+        // Unfreezing the game
+        else
         {
             Speed = SpeedSave;
             if (!SpeedSuper) { UpdateSpeed = true; }
@@ -296,7 +332,7 @@ public class GameManager : MonoBehaviour,
     }
 
 
-
+    // Destroy event listeners to avoid accidently triggering an event multiple times
     private void OnDestroy()
     {
         EventManager.RemoveListener<ScoreEvent>(OnScore);

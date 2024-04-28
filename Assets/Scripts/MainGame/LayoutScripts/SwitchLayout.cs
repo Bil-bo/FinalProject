@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+// Layout variation that freezes in places once it collides with the initial pass
 public class SwitchLayout : Layout
 {
     protected override void OnTriggerEnter2D(Collider2D collision)

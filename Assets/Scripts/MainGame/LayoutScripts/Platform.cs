@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+// Represents a moving object that the player can stand on or fall through
 public class Platform : MonoBehaviour
 {
     [SerializeField]
@@ -17,7 +19,7 @@ public class Platform : MonoBehaviour
         TriggerGround.size = new Vector2(GetComponent<SpriteRenderer>().bounds.size.x, TriggerGround.size.y);
     }
 
-
+    // Trigger ground positioned underneath Solid ground, to temporarily deactivate solid ground and allow player to pass through
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Player"))
@@ -26,6 +28,8 @@ public class Platform : MonoBehaviour
 
         }
     }
+
+
 
     private void OnTriggerExit2D(Collider2D collision)
     {
@@ -36,6 +40,7 @@ public class Platform : MonoBehaviour
         }
     }
 
+    // Temporarily deactivates self to allow player to fall through
     public IEnumerator FallThrough()
     {
         SolidGround.enabled = false;
