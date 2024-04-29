@@ -252,6 +252,7 @@ public class LayoutManager : MonoBehaviour,
     private void OnDisable()
     {
         RemoveObstacles();
+        TransitionList.ForEach(t => InstanceList.Remove(t));
         InstanceList.AddRange(HoldingList.ToList());
         HoldingList.Clear();
         

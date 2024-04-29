@@ -10336,26 +10336,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Tooth
       objectReference: {fileID: 0}
-    - target: {fileID: 4283490170663270127, guid: b8f2710e5085c494aa8da24a97d9c7e0, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 7269735545545934108, guid: a3030190fde20874785ee016a3fee299, type: 3}
-    - target: {fileID: 4283490170663270127, guid: b8f2710e5085c494aa8da24a97d9c7e0, type: 3}
-      propertyPath: m_Color.a
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4283490170663270127, guid: b8f2710e5085c494aa8da24a97d9c7e0, type: 3}
-      propertyPath: m_Color.b
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4283490170663270127, guid: b8f2710e5085c494aa8da24a97d9c7e0, type: 3}
-      propertyPath: m_Color.g
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4283490170663270127, guid: b8f2710e5085c494aa8da24a97d9c7e0, type: 3}
-      propertyPath: m_Color.r
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

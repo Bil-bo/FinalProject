@@ -68,6 +68,7 @@ public class GameManager : MonoBehaviour,
     private bool UpdateSpeed = true;
     private bool GameOver = false;
     private bool Paused = false;
+    private bool SceneChanging = false;
 
 
     private void Awake()
@@ -191,6 +192,7 @@ public class GameManager : MonoBehaviour,
         }
 
         // Reactivates the movement
+        SceneChanging = false;
         GameStop(false);
 
         // Restart checking for distance milestones
@@ -224,6 +226,7 @@ public class GameManager : MonoBehaviour,
     // During the falling scene, temporarily deactivates the ground holding the player up
     public void OnSceneChanging(SceneChangingEvent eventData)
     {
+        SceneChanging = true;
         GameStop(true);
         if (Scene == SceneIndex.FALLING) { FallingGround.SetActive(false); }
     }
@@ -260,7 +263,7 @@ public class GameManager : MonoBehaviour,
         UpdateSpeed = false;
         while (activeTime > 0) 
         {
-            if (!Paused)
+            if (!(Paused || SceneChanging))
             {
                 activeTime -= 0.1f;
             }

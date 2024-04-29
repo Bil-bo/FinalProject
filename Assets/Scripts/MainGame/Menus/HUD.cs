@@ -85,7 +85,8 @@ public class HUD : MonoBehaviour,
         // Full game over on failure
         else
         {
-            int highscore = JsonUtility.FromJson<HighScoreSaver>(PlayerPrefs.GetString("Highscore")).Scores[0];
+            int highscore = JsonUtility.FromJson<HighScoreSaver>
+                (PlayerPrefs.GetString("Highscore")).Scores[0];
             GameOverHighScore.text = "Highscore\n" + highscore;
             GameOverMenu.SetActive(true);
             PauseButton.interactable = false;
